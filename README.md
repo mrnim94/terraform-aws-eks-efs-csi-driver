@@ -37,3 +37,12 @@ module "eks-efs-csi-driver" {
 }
 
 ```
+
+Example Input:
+
+```hcl
+eks_cluster_certificate_authority_data = "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSRlgvZndHRmMKeU13PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg=="
+eks_cluster_endpoint = "https://54BDECE91CB74A3682E45D44CB7533CE.gr7.us-west-2.eks.amazonaws.com"
+eks_cluster_id = "devops-nimtechnology"
+aws_iam_openid_connect_provider_arn = "arn:aws:iam::250887682577:oidc-provider/oidc.eks.us-west-2.amazonaws.com/id/54BDECE91CB74A3682E45D44CB7533CE"
+```
