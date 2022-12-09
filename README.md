@@ -2,6 +2,8 @@ Example:
 Modules need to access the `terraform.tfstate` file.
 U mustn't declare so many many variables
 
+
+If your eks cluster was set up by eks module, You can refer to below configuration.
 ```hcl
 
 # Input Variables
@@ -36,6 +38,33 @@ module "eks-efs-csi-driver" {
  aws_iam_openid_connect_provider_arn = data.terraform_remote_state.eks.outputs.aws_iam_openid_connect_provider_arn
 }
 
+```
+
+anything else
+
+```hcl
+data "aws_eks_cluster" "dev-nimtechnology-engines" {
+  name = var.cluster_id
+}
+
+data "aws_vpc" "dev-nimtechnology-engine" {
+  id = data.aws_eks_cluster.dev-nimtechnology-engines.vpc_config[0].vpc_id
+}
+
+module "eks-efs-storageclass" {
+  source  = "mrnim94/eks-efs-storageclass/aws"
+  version = "1.0.5"
+
+  efs_name = "${var.business_divsion}-${var.environment}"
+
+  eks_cluster_certificate_authority_data = data.aws_eks_cluster.dev-nimtechnology-engines.certificate_authority[0].data
+  eks_cluster_endpoint = data.aws_eks_cluster.dev-nimtechnology-engines.endpoint
+  eks_cluster_id = var.cluster_id
+
+  eks_private_subnets = data.aws_eks_cluster.dev-nimtechnology-engines.vpc_config[0].subnet_ids
+  vpc_cidr_block = data.aws_vpc.dev-nimtechnology-engine.cidr_block
+  vpc_id = data.aws_eks_cluster.dev-nimtechnology-engines.vpc_config[0].vpc_id
+}
 ```
 
 Example Input:
