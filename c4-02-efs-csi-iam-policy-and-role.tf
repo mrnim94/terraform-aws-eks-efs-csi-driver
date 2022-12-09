@@ -3,7 +3,7 @@ resource "aws_iam_policy" "efs_csi_iam_policy" {
   name        = "${local.name}-AmazonEKS_EFS_CSI_Driver_Policy"
   path        = "/"
   description = "EFS CSI IAM Policy"
-  policy = data.http.efs_csi_iam_policy.request_body
+  policy = data.http.efs_csi_iam_policy.body
 }
 
 output "efs_csi_iam_policy_arn" {
